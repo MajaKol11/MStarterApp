@@ -1,0 +1,9 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,64,167,91"/>
+<area shape="rect" id="Node000001" href="$class_starter_app_1_1_view_models_1_1_role_item.html" title="Represents a role item in the user interface with assignment state." alt="" coords="215,5,430,32"/>
+<area shape="poly" id="edge11_Node000000_Node000001" title=" " alt="" coords="153,57,214,41,261,30,262,35,215,47,155,62"/>
+<area shape="rect" id="Node000002" href="$class_starter_app_1_1_view_models_1_1_user_detail_view_model.html" title="ViewModel for managing user details including creation, editing, and role management...." alt="" coords="227,56,418,99"/>
+<area shape="poly" id="edge12_Node000000_Node000002" title=" " alt="" coords="182,75,227,75,227,80,182,80"/>
+<area shape="rect" id="Node000003" href="$class_starter_app_1_1_view_models_1_1_user_list_view_model.html" title="ViewModel for managing the user list display and interactions in the application. Provides functional..." alt="" coords="227,123,418,165"/>
+<area shape="poly" id="edge13_Node000000_Node000003" title=" " alt="" coords="152,93,245,119,243,125,150,98"/>
+</map>

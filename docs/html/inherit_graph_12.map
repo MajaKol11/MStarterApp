@@ -1,0 +1,15 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,147,131,173"/>
+<area shape="rect" id="Node000001" href="$class_starter_app_1_1_view_models_1_1_base_view_model.html" title="Base view model class that provides common properties and functionality." alt="" coords="179,139,371,181"/>
+<area shape="poly" id="edge23_Node000000_Node000001" title=" " alt="" coords="146,157,178,157,178,163,146,163"/>
+<area shape="rect" id="Node000002" href="$class_starter_app_1_1_view_models_1_1_app_shell_view_model.html" title="View model for the application shell that manages navigation and authentication." alt="" coords="432,5,617,48"/>
+<area shape="poly" id="edge24_Node000001_Node000002" title=" " alt="" coords="312,127,361,91,418,58,445,46,447,51,420,62,364,96,315,131"/>
+<area shape="rect" id="Node000003" href="$class_starter_app_1_1_view_models_1_1_login_view_model.html" title="View model for the login page that handles user authentication." alt="" coords="428,72,621,115"/>
+<area shape="poly" id="edge25_Node000001_Node000003" title=" " alt="" coords="371,132,441,113,443,118,372,137"/>
+<area shape="rect" id="Node000004" href="$class_starter_app_1_1_view_models_1_1_main_view_model.html" title="View model for the main dashboard page." alt="" coords="430,139,620,181"/>
+<area shape="poly" id="edge26_Node000001_Node000004" title=" " alt="" coords="387,157,429,157,429,163,387,163"/>
+<area shape="rect" id="Node000005" href="$class_starter_app_1_1_view_models_1_1_profile_view_model.html" title="View model for the user profile page." alt="" coords="425,205,624,248"/>
+<area shape="poly" id="edge27_Node000001_Node000005" title=" " alt="" coords="372,183,443,202,441,207,371,188"/>
+<area shape="rect" id="Node000006" href="$class_starter_app_1_1_view_models_1_1_register_view_model.html" title="View model for the user registration page." alt="" coords="419,272,630,315"/>
+<area shape="poly" id="edge28_Node000001_Node000006" title=" " alt="" coords="315,189,364,224,420,258,447,269,445,274,418,262,361,229,312,193"/>
+</map>

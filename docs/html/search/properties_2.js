@@ -1,0 +1,9 @@
+var searchData=
+[
+  ['candeletecurrentuser_0',['CanDeleteCurrentUser',['../class_starter_app_1_1_view_models_1_1_user_detail_view_model.html#aa26d666bd12ca335cb0049784b752739',1,'StarterApp::ViewModels::UserDetailViewModel']]],
+  ['confirmpassword_1',['ConfirmPassword',['../class_starter_app_1_1_view_models_1_1_user_detail_view_model.html#ab09b77482d7f5a2abb018c222648449d',1,'StarterApp::ViewModels::UserDetailViewModel']]],
+  ['createdat_2',['CreatedAt',['../class_starter_app_1_1_view_models_1_1_user_list_item.html#a6210b11f8b24f1c115877cef4588d3b1',1,'StarterApp.ViewModels.UserListItem.CreatedAt'],['../class_starter_app_1_1_database_1_1_models_1_1_user.html#a94bdd141b0e27cb953a1a6c763919042',1,'StarterApp.Database.Models.User.CreatedAt'],['../class_starter_app_1_1_database_1_1_models_1_1_user_role.html#abcad387f2889c5c647aea6d342560607',1,'StarterApp.Database.Models.UserRole.CreatedAt']]],
+  ['createusercommand_3',['CreateUserCommand',['../class_starter_app_1_1_view_models_1_1_user_list_view_model.html#ae1a36337d573985ea69f0032b9169010',1,'StarterApp::ViewModels::UserListViewModel']]],
+  ['currentuser_4',['CurrentUser',['../class_starter_app_1_1_services_1_1_authentication_service.html#a7a63cae21e796041d15ba36fbc9d24d7',1,'StarterApp.Services.AuthenticationService.CurrentUser'],['../interface_starter_app_1_1_services_1_1_i_authentication_service.html#acf114c84a3c5ae4318e80778e73c4f0a',1,'StarterApp.Services.IAuthenticationService.CurrentUser']]],
+  ['currentuserroles_5',['CurrentUserRoles',['../class_starter_app_1_1_services_1_1_authentication_service.html#a42bc68abcc1ce97194f1a0de78f3498c',1,'StarterApp.Services.AuthenticationService.CurrentUserRoles'],['../interface_starter_app_1_1_services_1_1_i_authentication_service.html#a692b7dba4d470a3549a3747aef5b36a9',1,'StarterApp.Services.IAuthenticationService.CurrentUserRoles']]]
+];

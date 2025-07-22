@@ -23,55 +23,58 @@ namespace StarterApp.ViewModels;
 /// - Input validation and error handling
 /// </remarks>
 [QueryProperty(nameof(UserId), "userId")]
+
+
+
 public partial class UserDetailViewModel : INotifyPropertyChanged
 {
     #region Private Fields
-    
+
     /// <summary>Database context for data operations</summary>
     private readonly AppDbContext _context;
-    
+
     /// <summary>Navigation service for page transitions</summary>
     private readonly INavigationService _navigationService;
-    
+
     /// <summary>Authentication service for user role verification</summary>
     private readonly IAuthenticationService _authService;
 
     /// <summary>The ID of the user being edited (0 for new users)</summary>
     private int _userId;
-    
+
     /// <summary>The current user entity being edited</summary>
     private User? _currentUser;
-    
+
     /// <summary>User's first name</summary>
     private string _firstName = string.Empty;
-    
+
     /// <summary>User's last name</summary>
     private string _lastName = string.Empty;
-    
+
     /// <summary>User's email address</summary>
     private string _email = string.Empty;
-    
+
     /// <summary>User's password (for new users only)</summary>
     private string _password = string.Empty;
-    
+
     /// <summary>Password confirmation field</summary>
     private string _confirmPassword = string.Empty;
-    
+
     /// <summary>Whether the user account is active</summary>
     private bool _isActive = true;
-    
+
     /// <summary>Loading state indicator</summary>
     private bool _isLoading = false;
-    
+
     /// <summary>Flag indicating if this is a new user creation</summary>
     private bool _isNewUser = false;
-    
+
     /// <summary>Error message to display to user</summary>
     private string _errorMessage = string.Empty;
-    
+
     /// <summary>Success message to display to user</summary>
     private string _successMessage = string.Empty;
-    
+
     /// <summary>Collection of all available roles for assignment</summary>
     private ObservableCollection<RoleItem> _availableRoles = new();
 
@@ -97,7 +100,7 @@ public partial class UserDetailViewModel : INotifyPropertyChanged
         RemoveRoleCommand = new Command<RoleItem>(async (role) => await RemoveRoleAsync(role));
         BackCommand = new Command(async () => await NavigateBackAsync());
 
-        PropertyChanged += (s, e) => 
+        PropertyChanged += (s, e) =>
         {
             ((Command)SaveUserCommand).ChangeCanExecute();
             ((Command)DeleteUserCommand).ChangeCanExecute();
@@ -287,13 +290,13 @@ public partial class UserDetailViewModel : INotifyPropertyChanged
     /// </summary>
     /// <value>"Create New User" for new users, "Edit User" for existing users</value>
     public string PageTitle => IsNewUser ? "Create New User" : "Edit User";
-    
+
     /// <summary>
     /// Gets whether password fields should be shown (only for new users).
     /// </summary>
     /// <value>True if password fields should be visible, false otherwise</value>
     public bool ShowPasswordFields => IsNewUser;
-    
+
     /// <summary>
     /// Gets whether the current user can be deleted (not new user and not the currently logged-in user).
     /// </summary>
@@ -306,16 +309,16 @@ public partial class UserDetailViewModel : INotifyPropertyChanged
 
     /// <summary>Command to save the user (create or update)</summary>
     public ICommand SaveUserCommand { get; }
-    
+
     /// <summary>Command to delete the user</summary>
     public ICommand DeleteUserCommand { get; }
-    
+
     /// <summary>Command to add a role to the user</summary>
     public ICommand AddRoleCommand { get; }
-    
+
     /// <summary>Command to remove a role from the user</summary>
     public ICommand RemoveRoleCommand { get; }
-    
+
     /// <summary>Command to navigate back to the user list</summary>
     public ICommand BackCommand { get; }
 
@@ -351,7 +354,7 @@ public partial class UserDetailViewModel : INotifyPropertyChanged
         {
             // Load all roles first
             var allRoles = await _context.Roles.ToListAsync();
-            
+
             if (UserId == 0)
             {
                 // New user
@@ -365,12 +368,12 @@ public partial class UserDetailViewModel : INotifyPropertyChanged
                 IsActive = true;
 
                 AvailableRoles = new ObservableCollection<RoleItem>(
-                    allRoles.Select(r => new RoleItem 
-                    { 
-                        Id = r.Id, 
-                        Name = r.Name, 
-                        Description = r.Description, 
-                        IsAssigned = false 
+                    allRoles.Select(r => new RoleItem
+                    {
+                        Id = r.Id,
+                        Name = r.Name,
+                        Description = r.Description,
+                        IsAssigned = false
                     }));
             }
             else
@@ -394,14 +397,14 @@ public partial class UserDetailViewModel : INotifyPropertyChanged
                 IsActive = _currentUser.IsActive;
 
                 var userRoleIds = _currentUser.UserRoles.Where(ur => ur.IsActive).Select(ur => ur.RoleId).ToList();
-                
+
                 AvailableRoles = new ObservableCollection<RoleItem>(
-                    allRoles.Select(r => new RoleItem 
-                    { 
-                        Id = r.Id, 
-                        Name = r.Name, 
-                        Description = r.Description, 
-                        IsAssigned = userRoleIds.Contains(r.Id) 
+                    allRoles.Select(r => new RoleItem
+                    {
+                        Id = r.Id,
+                        Name = r.Name,
+                        Description = r.Description,
+                        IsAssigned = userRoleIds.Contains(r.Id)
                     }));
             }
 
@@ -428,7 +431,7 @@ public partial class UserDetailViewModel : INotifyPropertyChanged
     /// </remarks>
     private bool CanSaveUser()
     {
-        return !IsLoading && 
+        return !IsLoading &&
                !string.IsNullOrWhiteSpace(FirstName) &&
                !string.IsNullOrWhiteSpace(LastName) &&
                !string.IsNullOrWhiteSpace(Email) &&
@@ -460,7 +463,7 @@ public partial class UserDetailViewModel : INotifyPropertyChanged
             }
 
             SuccessMessage = IsNewUser ? "User created successfully!" : "User updated successfully!";
-            
+
             if (IsNewUser)
             {
                 await Task.Delay(1500);

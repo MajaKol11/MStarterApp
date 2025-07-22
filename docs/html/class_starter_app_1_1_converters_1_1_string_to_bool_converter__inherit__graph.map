@@ -1,0 +1,5 @@
+<map id="StarterApp.Converters.StringToBoolConverter" name="StarterApp.Converters.StringToBoolConverter">
+<area shape="rect" id="Node000001" title="Converts a string to a boolean value Returns true if the string is not null, empty,..." alt="" coords="5,80,195,123"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="43,5,157,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,48,103,80,97,80,97,48"/>
+</map>

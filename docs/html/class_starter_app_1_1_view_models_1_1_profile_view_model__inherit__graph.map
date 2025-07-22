@@ -1,0 +1,9 @@
+<map id="StarterApp.ViewModels.ProfileViewModel" name="StarterApp.ViewModels.ProfileViewModel">
+<area shape="rect" id="Node000001" title="View model for the user profile page." alt="" coords="5,171,205,213"/>
+<area shape="rect" id="Node000002" href="$class_starter_app_1_1_view_models_1_1_base_view_model.html" title="Base view model class that provides common properties and functionality." alt="" coords="9,80,201,123"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,138,100,170,95,170,93,138"/>
+<area shape="poly" id="edge4_Node000001_Node000002" title=" " alt="" coords="117,138,115,170,110,170,111,138"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="42,5,168,32"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="99,48,100,80,94,80,94,48"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="116,48,116,80,110,80,111,48"/>
+</map>

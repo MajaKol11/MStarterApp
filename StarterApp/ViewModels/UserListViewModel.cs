@@ -370,7 +370,9 @@ public partial class UserListViewModel : INotifyPropertyChanged
     {
         if (user != null)
         {
-            await _navigationService.NavigateToAsync($"UserDetailPage?userId={user.Id}");
+            await _navigationService.NavigateToAsync(
+            "UserDetailPage",
+            new Dictionary<string, object> { ["userId"] = user.Id });
         }
     }
 
@@ -460,4 +462,7 @@ public class UserListItem
     /// and is used for display in the UI and search functionality.
     /// </remarks>
     public string RolesDisplay { get; set; } = string.Empty;
+
+
+
 }

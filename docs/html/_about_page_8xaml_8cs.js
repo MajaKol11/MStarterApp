@@ -1,0 +1,4 @@
+var _about_page_8xaml_8cs =
+[
+    [ "StarterApp.Views.AboutPage", "class_starter_app_1_1_views_1_1_about_page.html", "class_starter_app_1_1_views_1_1_about_page" ]
+];

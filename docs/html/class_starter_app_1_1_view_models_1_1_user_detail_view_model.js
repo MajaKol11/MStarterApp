@@ -1,0 +1,26 @@
+var class_starter_app_1_1_view_models_1_1_user_detail_view_model =
+[
+    [ "UserDetailViewModel", "class_starter_app_1_1_view_models_1_1_user_detail_view_model.html#a107ba1fbe505ea223ca8b31290976002", null ],
+    [ "OnPropertyChanged", "class_starter_app_1_1_view_models_1_1_user_detail_view_model.html#a466a18aaa28068e5bd79920b6f9081dd", null ],
+    [ "AddRoleCommand", "class_starter_app_1_1_view_models_1_1_user_detail_view_model.html#ac8a7d4d7a742a1d5dd065a5a995e6133", null ],
+    [ "AvailableRoles", "class_starter_app_1_1_view_models_1_1_user_detail_view_model.html#a8fc5414457ce320cfdb737b2f937ac93", null ],
+    [ "BackCommand", "class_starter_app_1_1_view_models_1_1_user_detail_view_model.html#a868b9dbf85c459c2fdc5bfc87f36347a", null ],
+    [ "CanDeleteCurrentUser", "class_starter_app_1_1_view_models_1_1_user_detail_view_model.html#aa26d666bd12ca335cb0049784b752739", null ],
+    [ "ConfirmPassword", "class_starter_app_1_1_view_models_1_1_user_detail_view_model.html#ab09b77482d7f5a2abb018c222648449d", null ],
+    [ "DeleteUserCommand", "class_starter_app_1_1_view_models_1_1_user_detail_view_model.html#a3d4894033f78b7b88c74e1e9dd43af9b", null ],
+    [ "Email", "class_starter_app_1_1_view_models_1_1_user_detail_view_model.html#ab7fe938f7aaf72cbc52b8f07b887046e", null ],
+    [ "ErrorMessage", "class_starter_app_1_1_view_models_1_1_user_detail_view_model.html#a040f89b6ee3bf56db31ec2e804d26462", null ],
+    [ "FirstName", "class_starter_app_1_1_view_models_1_1_user_detail_view_model.html#a81d088b3e81cd361fb66eebcee812640", null ],
+    [ "IsActive", "class_starter_app_1_1_view_models_1_1_user_detail_view_model.html#ab6967f465f3685b6bee20a9151ff5137", null ],
+    [ "IsLoading", "class_starter_app_1_1_view_models_1_1_user_detail_view_model.html#a1d0329f88da5321dd15cbc0edbd2fe47", null ],
+    [ "IsNewUser", "class_starter_app_1_1_view_models_1_1_user_detail_view_model.html#a856713eef7fefbb30c649cdfcbc834c6", null ],
+    [ "LastName", "class_starter_app_1_1_view_models_1_1_user_detail_view_model.html#adecd03a77f8b7bb5d26d1aeba3aaacb3", null ],
+    [ "PageTitle", "class_starter_app_1_1_view_models_1_1_user_detail_view_model.html#add41df2c27d40874f89740ef9705c237", null ],
+    [ "Password", "class_starter_app_1_1_view_models_1_1_user_detail_view_model.html#aaf94c74fed8d2db4681c335b1e8b6b91", null ],
+    [ "RemoveRoleCommand", "class_starter_app_1_1_view_models_1_1_user_detail_view_model.html#a8aafe681461ee41ee6aee3eb30f68798", null ],
+    [ "SaveUserCommand", "class_starter_app_1_1_view_models_1_1_user_detail_view_model.html#af1bf81286c8212571862a4f1aa6752f5", null ],
+    [ "ShowPasswordFields", "class_starter_app_1_1_view_models_1_1_user_detail_view_model.html#a8375b50593eedd18f0411bf85be89b12", null ],
+    [ "SuccessMessage", "class_starter_app_1_1_view_models_1_1_user_detail_view_model.html#a6b53c62e647a40eb7ef40b7619156558", null ],
+    [ "UserId", "class_starter_app_1_1_view_models_1_1_user_detail_view_model.html#a66d15abdf2da7a65fd36f375af73f3a8", null ],
+    [ "PropertyChanged", "class_starter_app_1_1_view_models_1_1_user_detail_view_model.html#a9842a3f49ce0811b21c05e5f2f4af2cd", null ]
+];

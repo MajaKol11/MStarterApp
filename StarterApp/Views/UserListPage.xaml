@@ -73,10 +73,17 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:UserListItem">
                         <Grid Padding="15,10">
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:UserListViewModel}}, Path=UserSelectedCommand}"
-                                                     CommandParameter="{Binding .}" />
-                            </Grid.GestureRecognizers>
+                        <Grid.GestureRecognizers>
+                            <!-- Reach the command on the page’s BindingContext -->
+                            <TapGestureRecognizer
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
+                                                  Path=BindingContext.UserSelectedCommand}"
+                                CommandParameter="{Binding .}" />
+                        </Grid.GestureRecognizers>
+
+                            
+
+
 
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
