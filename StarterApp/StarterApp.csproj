@@ -13,6 +13,10 @@
 		either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
 		<!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
 
+		<!-- Force MSBuild's Run target to use the hashed activity package -->
+		<AndroidMainActivity>crc640b95e6222dc6e077.MainActivity</AndroidMainActivity>
+
+
 		<OutputType>Exe</OutputType>
 		<RootNamespace>StarterApp</RootNamespace>
 		<UseMaui>true</UseMaui>
@@ -58,6 +62,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.6" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.6" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.80" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.80" />

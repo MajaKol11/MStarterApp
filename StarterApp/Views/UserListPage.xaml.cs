@@ -8,5 +8,6 @@ public partial class UserListPage : ContentPage
     {
         InitializeComponent();
         BindingContext = viewModel;
+
     }
 }
