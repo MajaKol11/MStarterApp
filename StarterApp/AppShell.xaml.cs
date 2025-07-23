@@ -10,12 +10,18 @@ public partial class AppShell : Shell
 		BindingContext = viewModel;
 		InitializeComponent();
 
-		
 
-		Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
-		Routing.RegisterRoute(nameof(UserListPage), typeof(UserListPage));
+
+		Routing.RegisterRoute(nameof(RegisterPage),   typeof(RegisterPage));
+		Routing.RegisterRoute(nameof(UserListPage),   typeof(UserListPage));
 		Routing.RegisterRoute(nameof(UserDetailPage), typeof(UserDetailPage));
-		Routing.RegisterRoute(nameof(AboutPage), typeof(AboutPage));
+		Routing.RegisterRoute(nameof(AboutPage),      typeof(AboutPage));
+		Routing.RegisterRoute(nameof(MyNewPage),      typeof(MyNewPage));
+		Routing.RegisterRoute(nameof(LoginPage),      typeof(LoginPage));
+		Routing.RegisterRoute(nameof(MainPage),       typeof(MainPage));
+		//Routing.RegisterRoute(nameof(ProfilePage),    typeof(ProfilePage));
+		Routing.RegisterRoute(nameof(TempPage),       typeof(TempPage));
+		
 
 	}
 }

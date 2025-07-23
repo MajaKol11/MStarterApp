@@ -1,3 +1,4 @@
+using StarterApp.Views;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
@@ -350,10 +351,18 @@ public partial class UserListViewModel : INotifyPropertyChanged
 
     /// @brief Navigates to the dashboard page
     /// @return A task representing the asynchronous navigation operation
+
+
     [RelayCommand]
     private async Task NavigateToDashboardAsync()
     {
         await _navigationService.NavigateToAsync("MainPage");
+    }
+
+
+    [RelayCommand]    private async Task GoToMyNewPageAsync()
+    {
+        await Shell.Current.GoToAsync(nameof(MyNewPage));
     }
 
     /// <summary>

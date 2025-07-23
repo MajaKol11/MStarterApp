@@ -1,17 +1,39 @@
-﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:StarterApp.Converters"
              xmlns:local="clr-namespace:StarterApp"
              x:Class="StarterApp.App">
+
     <Application.Resources>
         <ResourceDictionary>
+
+            <!-- 🔄  Global converters -->
             <converters:InvertedBoolConverter x:Key="InvertedBoolConverter" />
-            <converters:StringToBoolConverter x:Key="StringToBoolConverter" />
+            <converters:StringToBoolConverter  x:Key="StringToBoolConverter"  />
+
+            <!-- 🔄  Brand / status colours -->
+            <Color x:Key="Primary">#FF0066CC</Color>
+            <Color x:Key="PrimaryDark">#FF004C99</Color>
+            <Color x:Key="Success">#FF2E7D32</Color>   <!-- keeps your #FF878A88 if you prefer -->
+            <Color x:Key="Danger">#FFB00020</Color>
+
+            <!-- 🔄  Greys used by UserDetailPage -->
+            <Color x:Key="Gray100">#FFF5F5F5</Color>
+            <Color x:Key="Gray300">#FFE0E0E0</Color>
+            <Color x:Key="Gray400">#FFBDBDBD</Color>
+            <Color x:Key="Gray600">#FF757575</Color>
+            <Color x:Key="Gray700">#FF616161</Color>
+            <Color x:Key="Gray800">#FF424242</Color>
+            <Color x:Key="Gray900">#FF212121</Color>
+
+            <!-- 🔄  Bring in any existing colour/style dictionaries last
+                 so they can override the defaults above if needed -->
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
