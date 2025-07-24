@@ -23,6 +23,8 @@ public class User
     public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? DeletedAt { get; set; }
     public bool IsActive { get; set; } = true;
+    public string? Bio { get; set; }     
+
 
     // Navigation properties
     public List<UserRole> UserRoles { get; set; } = new List<UserRole>();

@@ -70,6 +70,11 @@ public partial class MainViewModel : BaseViewModel
         }
     }
 
+    [RelayCommand]
+    private async Task NavigateToProfileAsync() =>
+        await Shell.Current.GoToAsync(nameof(Profile));
+
+
     /// @brief Logs out the current user
     /// @details Relay command that confirms logout and performs the logout operation
     /// @return A task representing the asynchronous logout operation

@@ -19,6 +19,11 @@
         <ToolbarItem Text="Logout" 
                      Command="{Binding LogoutCommand}"
                      IconImageSource="logout.png" />
+        <ToolbarItem Text="Profile"
+             Command="{Binding NavigateToProfileCommand}"
+             IconImageSource="user.png" />
+
+
     </ContentPage.ToolbarItems>
 
     <RefreshView IsRefreshing="{Binding IsBusy}" 
@@ -103,6 +108,7 @@
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding NavigateToProfileCommand}" />
                         </Border.GestureRecognizers>
+
                         <Grid ColumnDefinitions="Auto,*,Auto">
                             <Label Grid.Column="0"
                                    Text="👤"
@@ -190,7 +196,7 @@
                                    TextColor="{AppThemeBinding Light={StaticResource Gray400}, Dark={StaticResource Gray600}}" />
                         </Grid>
                     </Border>
-
+                
                 </StackLayout>
             </Grid>
         </ScrollView>

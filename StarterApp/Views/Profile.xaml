@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:StarterApp.ViewModels"
+             xmlns:conv="clr-namespace:StarterApp.Converters"
+             x:Class="StarterApp.Views.Profile"
+             x:DataType="vm:ProfileViewModel">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+
+            <Label Text="Your Bio"
+                   FontAttributes="Bold"
+                   FontSize="18" />
+
+            <!-- Read‑only view -->
+            <Label Text="{Binding CurrentUser.Bio}"
+                   IsVisible="{Binding EditMode, Converter={StaticResource InvertedBoolConverter}}" />
+
+            <!-- Edit view -->
+            <Editor Text="{Binding EditableBio}"
+                    Placeholder="Enter your bio here"
+                    IsVisible="{Binding EditMode}"
+                    AutoSize="TextChanges"
+                    HeightRequest="120" />
+
+            <!-- Buttons -->
+            <StackLayout Orientation="Horizontal" Spacing="10">
+                <!-- Edit button (visible when NOT editing) -->
+                <Button Text="Edit"
+                        IsVisible="{Binding EditMode, Converter={StaticResource InvertedBoolConverter}}"
+                        Command="{Binding ToggleEditModeCommand}" />
+
+                <!-- Save / Cancel buttons (visible when editing) -->
+                <Button Text="Save"
+                        IsVisible="{Binding EditMode}"
+                        Command="{Binding SaveBioCommand}" />
+
+                <Button Text="Cancel"
+                        IsVisible="{Binding EditMode}"
+                        Command="{Binding ToggleEditModeCommand}" />
+            </StackLayout>
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

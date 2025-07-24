@@ -3,6 +3,8 @@
 /// @author StarterApp Development Team
 /// @date 2025
 
+using System;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using StarterApp.Database.Models;
@@ -11,7 +13,7 @@ using StarterApp.Services;
 namespace StarterApp.ViewModels;
 
 /// @brief View model for the user profile page
-/// @details Manages user profile display and password change functionality
+/// @details Manages user profile display, editable bio, and password change functionality
 /// @extends BaseViewModel
 public partial class ProfileViewModel : BaseViewModel
 {
@@ -20,6 +22,9 @@ public partial class ProfileViewModel : BaseViewModel
     
     /// @brief Navigation service for managing page navigation
     private readonly INavigationService _navigationService;
+
+    /// @brief User service for reading/updating profile data
+    private readonly IUserService _userService;
 
     /// @brief The current user's profile information
     /// @details Observable property containing the current user's data
@@ -46,17 +51,35 @@ public partial class ProfileViewModel : BaseViewModel
     [ObservableProperty]
     private bool isChangingPassword;
 
+    /// @brief Bio text as stored in the database (read‑only binding)
+    [ObservableProperty]
+    private string? bio;
+
+    /// @brief Editable bio bound to the <Editor/>
+    [ObservableProperty]
+    private string editableBio = string.Empty;
+
+    /// @brief Indicates whether the bio section is in edit mode
+    [ObservableProperty]
+    private bool editMode;
+
     /// @brief Initializes a new instance of the ProfileViewModel class
     /// @param authService The authentication service instance
     /// @param navigationService The navigation service instance
+    /// @param userService The user data service instance
     /// @details Sets up the required services, initializes the title, and loads user data
-    public ProfileViewModel(IAuthenticationService authService, INavigationService navigationService)
+    public ProfileViewModel(
+        IAuthenticationService authService,
+        INavigationService navigationService,
+        IUserService userService)
     {
-        _authService = authService;
+        _authService       = authService;
         _navigationService = navigationService;
+        _userService       = userService;
         Title = "Profile";
 
         LoadUserData();
+        _ = LoadBioAsync();
     }
 
     /// @brief Loads the current user's profile data
@@ -66,16 +89,15 @@ public partial class ProfileViewModel : BaseViewModel
         CurrentUser = _authService.CurrentUser;
     }
 
+    /*──────────────────────────── Password Change ───────────────────────────*/
+
     /// @brief Changes the user's password
     /// @details Relay command that validates and performs the password change operation
     /// @return A task representing the asynchronous password change operation
     [RelayCommand]
     private async Task ChangePasswordAsync()
     {
-        if (IsBusy)
-            return;
-
-        if (!ValidatePasswordChange())
+        if (IsBusy || !ValidatePasswordChange())
             return;
 
         try
@@ -173,5 +195,57 @@ public partial class ProfileViewModel : BaseViewModel
         CurrentPassword = string.Empty;
         NewPassword = string.Empty;
         ConfirmNewPassword = string.Empty;
+    }
+
+    /*──────────────────────────── Speaker Bio Section ───────────────────────*/
+
+    /// @brief Loads the bio from the database
+    [RelayCommand]
+    private async Task LoadBioAsync()
+    {
+        Bio = await _userService.GetBioAsync(_authService.CurrentUser.Id);
+    }
+
+    /// @brief Toggles between view and edit mode for bio
+    [RelayCommand]
+    private void ToggleEditMode()
+    {
+        EditMode = !EditMode;
+        if (EditMode && CurrentUser != null)
+            EditableBio = CurrentUser.Bio ?? string.Empty;
+    }
+
+    /// @brief Saves the edited bio back to the database
+    [RelayCommand]
+    private async Task SaveBioAsync()
+    {
+        if (IsBusy || CurrentUser == null)
+            return;
+
+        try
+        {
+            IsBusy = true;
+            ClearError();
+
+            var success = await _userService.UpdateBioAsync(CurrentUser.Id, EditableBio);
+            if (success)
+            {
+                CurrentUser.Bio = EditableBio;
+                Bio             = EditableBio;
+                EditMode        = false;
+            }
+            else
+            {
+                SetError("Unable to save bio.");
+            }
+        }
+        catch (Exception ex)
+        {
+            SetError($"Unable to save bio: {ex.Message}");
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 }
