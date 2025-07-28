@@ -2,7 +2,7 @@
 /// @brief Main dashboard view model for authenticated users
 /// @author StarterApp Development Team
 /// @date 2025
-
+using StarterApp.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using StarterApp.Database.Models;
@@ -96,12 +96,7 @@ public partial class MainViewModel : BaseViewModel
 
     /// @brief Navigates to the user profile page
     /// @details Relay command that navigates to the profile management page
-    /// @return A task representing the asynchronous navigation operation
-    [RelayCommand]
-    private async Task NavigateToProfileAsync()
-    {
-        await _navigationService.NavigateToAsync("TempPage");
-    }
+    /// @return A task representing the asynchronous navigation operatio
 
     /// @brief Navigates to the settings page
     /// @details Relay command that navigates to the application settings page

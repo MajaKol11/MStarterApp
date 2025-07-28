@@ -2,6 +2,6 @@ namespace StarterApp.Services;
 
 public interface IUserService
 {
-    Task<string?> GetBioAsync(int userId);
-    Task          UpdateBioAsync(int userId, string? bio);
+    Task<string> GetBioAsync(int userId);
+    Task<bool>   UpdateBioAsync(int userId, string bio);   // <— changed
 }
