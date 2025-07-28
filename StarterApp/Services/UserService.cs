@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StarterApp.Database.Data;   // <— where AppDbContext lives
+using StarterApp.Database.Data;
 
 namespace StarterApp.Services;
 
@@ -7,10 +7,7 @@ public class UserService : IUserService
 {
     private readonly AppDbContext _db;
 
-    public UserService(AppDbContext db)
-    {
-        _db = db;
-    }
+    public UserService(AppDbContext db) => _db = db;
 
     public async Task<string?> GetBioAsync(int userId)
     {

@@ -1,12 +1,13 @@
-using Microsoft.Maui.Controls;
+using StarterApp.ViewModels;
 
-namespace StarterApp.Views
+namespace StarterApp.Views;
+
+public partial class Profile : ContentPage
 {
-    public partial class Profile : ContentPage
+    
+    public Profile(ProfileViewModel viewModel)
     {
-        public Profile()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+        BindingContext = viewModel;
     }
 }
