@@ -1,7 +1,7 @@
 /// @file ProfileViewModel.cs
-/// @brief User profile management view model
+/// @brief User‑profile management view‑model
 /// @author StarterApp Development Team
-/// @date 2025
+/// @date   2025
 
 using System;
 using System.Threading.Tasks;
@@ -12,104 +12,73 @@ using StarterApp.Services;
 
 namespace StarterApp.ViewModels;
 
-/// @brief View model for the user profile page
-/// @details Manages user profile display, editable bio, and password change functionality
-/// @extends BaseViewModel
+/// <summary>
+/// View‑model for the Profile page: bio editing + password change.
+/// </summary>
 public partial class ProfileViewModel : BaseViewModel
 {
-    /// @brief Authentication service for managing user authentication
-    private readonly IAuthenticationService _authService;
-    
-    /// @brief Navigation service for managing page navigation
-    private readonly INavigationService _navigationService;
+    /* ───────────────────────── dependencies ───────────────────────────── */
 
-    /// @brief User service for reading/updating profile data
-    private readonly IUserService _userService;
+    private readonly IAuthenticationService   _authService;
+    private readonly INavigationService       _navigationService;
+    private readonly IUserService             _userService;
+    private readonly IAppNotificationService  _notificationService;
 
-    /// @brief The current user's profile information
-    /// @details Observable property containing the current user's data
-    [ObservableProperty]
-    private User? currentUser;
+    /* ───────────────────────── bindable state ─────────────────────────── */
 
-    /// @brief The user's current password for verification
-    /// @details Observable property bound to the current password input field
-    [ObservableProperty]
-    private string currentPassword = string.Empty;
+    [ObservableProperty] private User?   currentUser;
 
-    /// @brief The user's new password
-    /// @details Observable property bound to the new password input field
-    [ObservableProperty]
-    private string newPassword = string.Empty;
+    /* password */
+    [ObservableProperty] private string  currentPassword   = string.Empty;
+    [ObservableProperty] private string  newPassword       = string.Empty;
+    [ObservableProperty] private string  confirmNewPassword = string.Empty;
+    [ObservableProperty] private bool    isChangingPassword;
 
-    /// @brief Confirmation of the user's new password
-    /// @details Observable property bound to the confirm new password input field
-    [ObservableProperty]
-    private string confirmNewPassword = string.Empty;
+    /* bio */
+    [ObservableProperty] private string? bio;
+    [ObservableProperty] private string  editableBio = string.Empty;
+    [ObservableProperty] private bool    editMode;
 
-    /// @brief Indicates whether the password change mode is active
-    /// @details Observable property that controls the visibility of password change fields
-    [ObservableProperty]
-    private bool isChangingPassword;
+    /* ───────────────────────── constructor ────────────────────────────── */
 
-    /// @brief Bio text as stored in the database (read‑only binding)
-    [ObservableProperty]
-    private string? bio;
-
-    /// @brief Editable bio bound to the <Editor/>
-    [ObservableProperty]
-    private string editableBio = string.Empty;
-
-    /// @brief Indicates whether the bio section is in edit mode
-    [ObservableProperty]
-    private bool editMode;
-
-    /// @brief Initializes a new instance of the ProfileViewModel class
-    /// @param authService The authentication service instance
-    /// @param navigationService The navigation service instance
-    /// @param userService The user data service instance
-    /// @details Sets up the required services, initializes the title, and loads user data
     public ProfileViewModel(
-        IAuthenticationService authService,
-        INavigationService navigationService,
-        IUserService userService)
+        IAuthenticationService  authService,
+        INavigationService      navigationService,
+        IUserService            userService,
+        IAppNotificationService notificationService)
     {
-        _authService       = authService;
-        _navigationService = navigationService;
-        _userService       = userService;
+        _authService         = authService;
+        _navigationService   = navigationService;
+        _userService         = userService;
+        _notificationService = notificationService;
+
         Title = "Profile";
 
         LoadUserData();
         _ = LoadBioAsync();
     }
 
-    /// @brief Loads the current user's profile data
-    /// @details Retrieves the current user's information from the authentication service
-    private void LoadUserData()
-    {
-        CurrentUser = _authService.CurrentUser;
-    }
+    private void LoadUserData() => CurrentUser = _authService.CurrentUser;
 
-    /*──────────────────────────── Password Change ───────────────────────────*/
+    /* ───────────────────────── password section ───────────────────────── */
 
-    /// @brief Changes the user's password
-    /// @details Relay command that validates and performs the password change operation
-    /// @return A task representing the asynchronous password change operation
     [RelayCommand]
     private async Task ChangePasswordAsync()
     {
-        if (IsBusy || !ValidatePasswordChange())
-            return;
+        if (IsBusy || !ValidatePasswordChange()) return;
 
         try
         {
             IsBusy = true;
             ClearError();
 
-            var success = await _authService.ChangePasswordAsync(CurrentPassword, NewPassword);
+            bool ok = await _authService.ChangePasswordAsync(CurrentPassword, NewPassword);
 
-            if (success)
+            if (ok)
             {
-                await Application.Current.MainPage.DisplayAlert("Success", "Password changed successfully!", "OK");
+                await Application.Current.MainPage!.DisplayAlert(
+                    "Success", "Password changed successfully!", "OK");
+
                 ClearPasswordFields();
                 IsChangingPassword = false;
             }
@@ -128,8 +97,6 @@ public partial class ProfileViewModel : BaseViewModel
         }
     }
 
-    /// @brief Toggles the password change mode
-    /// @details Relay command that shows/hides password change fields and clears data when hiding
     [RelayCommand]
     private void TogglePasswordChangeMode()
     {
@@ -141,111 +108,92 @@ public partial class ProfileViewModel : BaseViewModel
         }
     }
 
-    /// @brief Navigates back to the previous page
-    /// @details Relay command that performs backward navigation
-    /// @return A task representing the asynchronous navigation operation
-    [RelayCommand]
-    private async Task NavigateBackAsync()
-    {
-        await _navigationService.NavigateBackAsync();
-    }
-
-    /// @brief Validates the password change form data
-    /// @return True if validation passes, false otherwise
-    /// @details Checks all password change requirements and sets appropriate error messages
     private bool ValidatePasswordChange()
     {
         if (string.IsNullOrWhiteSpace(CurrentPassword))
-        {
-            SetError("Current password is required");
-            return false;
-        }
+            return SetErrorAndFalse("Current password is required");
 
         if (string.IsNullOrWhiteSpace(NewPassword))
-        {
-            SetError("New password is required");
-            return false;
-        }
+            return SetErrorAndFalse("New password is required");
 
         if (NewPassword.Length < 6)
-        {
-            SetError("New password must be at least 6 characters long");
-            return false;
-        }
+            return SetErrorAndFalse("New password must be at least 6 characters long");
 
         if (NewPassword != ConfirmNewPassword)
-        {
-            SetError("New passwords do not match");
-            return false;
-        }
+            return SetErrorAndFalse("New passwords do not match");
 
         if (CurrentPassword == NewPassword)
-        {
-            SetError("New password must be different from current password");
-            return false;
-        }
+            return SetErrorAndFalse("New password must be different from current password");
 
         return true;
+
+        bool SetErrorAndFalse(string msg) { SetError(msg); return false; }
     }
 
-    /// @brief Clears all password input fields
-    /// @details Resets all password-related properties to empty strings
     private void ClearPasswordFields()
     {
-        CurrentPassword = string.Empty;
-        NewPassword = string.Empty;
+        CurrentPassword   = string.Empty;
+        NewPassword       = string.Empty;
         ConfirmNewPassword = string.Empty;
     }
 
-    /*──────────────────────────── Speaker Bio Section ───────────────────────*/
+    /* ───────────────────────── bio section ────────────────────────────── */
 
-    /// @brief Loads the bio from the database
     [RelayCommand]
     private async Task LoadBioAsync()
     {
-        Bio = await _userService.GetBioAsync(_authService.CurrentUser.Id);
+        var user = _authService.CurrentUser;
+        if (user is null) return;
+
+        Bio = await _userService.GetBioAsync(user.Id);
     }
 
-    /// @brief Toggles between view and edit mode for bio
     [RelayCommand]
     private void ToggleEditMode()
     {
         EditMode = !EditMode;
-        if (EditMode && CurrentUser != null)
+        if (EditMode && CurrentUser is not null)
             EditableBio = CurrentUser.Bio ?? string.Empty;
     }
 
-    /// @brief Saves the edited bio back to the database
     [RelayCommand]
-    private async Task SaveBioAsync()
+private async Task SaveBioAsync()
+{
+    if (IsBusy || CurrentUser is null) return;
+
+    try
     {
-        if (IsBusy || CurrentUser == null)
-            return;
+        IsBusy = true;
+        ClearError();
 
-        try
+        if (await _userService.UpdateBioAsync(CurrentUser.Id, EditableBio))
         {
-            IsBusy = true;
-            ClearError();
+            CurrentUser.Bio = EditableBio;
+            Bio             = EditableBio;
+            EditMode        = false;
 
-            var success = await _userService.UpdateBioAsync(CurrentUser.Id, EditableBio);
-            if (success)
-            {
-                CurrentUser.Bio = EditableBio;
-                Bio             = EditableBio;
-                EditMode        = false;
-            }
-            else
-            {
-                SetError("Unable to save bio.");
-            }
+            await _notificationService.ShowAsync(
+                "Profile updated",
+                "Your biography was changed successfully.");
         }
-        catch (Exception ex)
+        else
         {
-            SetError($"Unable to save bio: {ex.Message}");
-        }
-        finally
-        {
-            IsBusy = false;
+            SetError("Unable to save bio.");
         }
     }
+    catch (Exception ex)
+    {
+        SetError($"Unable to save bio: {ex.Message}");
+    }
+    finally
+    {
+        IsBusy = false;
+    }
+}
+
+
+    /* ───────────────────────── navigation ─────────────────────────────── */
+
+    [RelayCommand]
+    private Task NavigateBackAsync() => _navigationService.NavigateBackAsync();
 }

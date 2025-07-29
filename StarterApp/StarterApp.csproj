@@ -16,7 +16,6 @@
 		<!-- Force MSBuild's Run target to use the hashed activity package -->
 		<AndroidMainActivity>crc640b95e6222dc6e077.MainActivity</AndroidMainActivity>
 
-
 		<OutputType>Exe</OutputType>
 		<RootNamespace>StarterApp</RootNamespace>
 		<UseMaui>true</UseMaui>
@@ -40,6 +39,14 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+	</PropertyGroup>
+
+	<!-- ─── ADDED: stop Fast‑Deployment on Debug / Android to prevent the
+	     “No assemblies found in … /.__override__/x86_64” crash ─── -->
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net9.0-android' and '$(Configuration)' == 'Debug'">
+		<AndroidFastDeploymentType>None</AndroidFastDeploymentType>
+		<AndroidEnableApplicationSharedRuntime>false</AndroidEnableApplicationSharedRuntime>
+		<EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -67,10 +74,16 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.80" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.80" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.6" />
+		<PackageReference Include="Plugin.LocalNotification" Version="12.0.2" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="../StarterApp.Database/StarterApp.Database.csproj" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<!-- Android 13+ runtime notification permission -->
+		<MauiAndroidPermission Include="android.permission.POST_NOTIFICATIONS" />
 	</ItemGroup>
 
 </Project>

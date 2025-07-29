@@ -18,18 +18,12 @@ public partial class App : Application
 		Routing.RegisterRoute(nameof(Views.TempPage), typeof(Views.TempPage));
 	}
 
-	protected override Window CreateWindow(IActivationState? activationState)
+	protected override Window CreateWindow(IActivationState activationState)
 	{
-		// var window = base.CreateWindow(activationState);
-		// window.Page = new AppShell();
+		// Let IoC give us the fully composed shell (with ViewModel injected)
+		var shell = _serviceProvider.GetRequiredService<AppShell>();
 
-		var shell = _serviceProvider.GetService<AppShell>();
-		if (shell == null)
-		{
-			// Handle the error if AppShell could not be resolved
-			throw new InvalidOperationException("AppShell could not be resolved from the service provider.");
-		}
-		var window = new Window(shell);
-		return window;
+		// Return a single Window that hosts that shell
+		return new Window(shell);
 	}
 }

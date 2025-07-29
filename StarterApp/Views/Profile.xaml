@@ -20,8 +20,8 @@
                    FontSize="18" />
 
             <!-- Read‑only view -->
-            <Label Text="{Binding CurrentUser.Bio}"
-                   IsVisible="{Binding EditMode, Converter={StaticResource InvertedBoolConverter}}" />
+            <Label Text="{Binding Bio}"
+                IsVisible="{Binding EditMode, Converter={StaticResource InvertedBoolConverter}}" />
 
             <!-- Edit view -->
             <Editor Text="{Binding EditableBio}"
