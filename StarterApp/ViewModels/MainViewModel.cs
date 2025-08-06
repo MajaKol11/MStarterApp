@@ -1,7 +1,3 @@
-/// @file MainViewModel.cs
-/// @brief Main dashboard view model for authenticated users
-/// @author StarterApp Development Team
-/// @date 2025
 using StarterApp.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -10,44 +6,37 @@ using StarterApp.Services;
 
 namespace StarterApp.ViewModels;
 
-/// @brief View model for the main dashboard page
-/// @details Manages the main dashboard display, user information, and navigation to other sections
-/// @extends BaseViewModel
+//ViewModel for the main dashboard page (main screen after login).
+//Extends BaseViewModel and inherits common properties and methods.
 public partial class MainViewModel : BaseViewModel
 {
-    /// @brief Authentication service for managing user authentication
+    //Manages user authentication and session.
     private readonly IAuthenticationService _authService;
-    
-    /// @brief Navigation service for managing page navigation
+
+    //Navigation service for managing page navigation
     private readonly INavigationService _navigationService;
 
-    /// @brief The currently authenticated user
-    /// @details Observable property containing the current user's information
+    //The user who is currently logged in.
     [ObservableProperty]
     private User? currentUser;
 
-    /// @brief Welcome message displayed to the user
-    /// @details Observable property showing a personalized welcome message
+    // Welcome message to greet the user on the dashboard.
     [ObservableProperty]
     private string welcomeMessage = string.Empty;
 
-    /// @brief Indicates whether the current user has admin privileges
-    /// @details Observable property used to control visibility of admin features
-    [ObservableProperty]
+    //True if the user has the Admin role.
+    //Used to show or hide admin features in the UI.
     private bool isAdmin;
 
-    /// @brief Default constructor for design-time support
-    /// @details Sets the title to "Dashboard"
+    //Empty constructor for design time support.
     public MainViewModel()
-        {
-            // Default constructor for design time support
-            Title = "Dashboard";
-        }
-    
-    /// @brief Initializes a new instance of the MainViewModel class
-    /// @param authService The authentication service instance
-    /// @param navigationService The navigation service instance
-    /// @details Sets up the required services, initializes the title, and loads user data
+    {
+        //'Title' inherited from BaseViewModel and set to "Dashboard".'
+        Title = "Dashboard";
+    }
+
+    //Main constructor that runs when the app is started.
+    //It stores the services and loads user data.
     public MainViewModel(IAuthenticationService authService, INavigationService navigationService)
     {
         _authService = authService;
@@ -57,60 +46,52 @@ public partial class MainViewModel : BaseViewModel
         LoadUserData();
     }
 
-    /// @brief Loads the current user's data and sets up the dashboard
-    /// @details Retrieves current user information and determines admin status
+    //Loads the current user data from the authentication service.
+    //Sets the welcome message based on the user's full name.
     private void LoadUserData()
     {
         CurrentUser = _authService.CurrentUser;
         IsAdmin = _authService.HasRole("Admin");
-        
-        if (CurrentUser != null)
+
+        if (CurrentUser != null) //If the current user is not null, set the welcome message.
         {
             WelcomeMessage = $"Welcome, {CurrentUser.FullName}!";
         }
     }
 
+    //Navigates to the Profile page.
     [RelayCommand]
     private async Task NavigateToProfileAsync() =>
         await Shell.Current.GoToAsync(nameof(Profile));
 
 
-    /// @brief Logs out the current user
-    /// @details Relay command that confirms logout and performs the logout operation
-    /// @return A task representing the asynchronous logout operation
+    //Logs the user out after showing a confirmation dialog.
+    //If the user confirms, it calls the logout method and navigates to the login page
     [RelayCommand]
     private async Task LogoutAsync()
     {
-        var result = await Application.Current.MainPage.DisplayAlert(
-            "Logout", 
-            "Are you sure you want to logout?", 
-            "Yes", 
-            "No");
+        var result = await Application.Current.MainPage.DisplayAlert( //This is the confirmation dialog. 'Await' makes the program wait for the user's response.
+            "Logout",                                                 //This is the title of the dialog.
+            "Are you sure you want to logout?",                       //This is the question displayed in the dialog.
+            "Yes",                                                    //This is the text for the confirmation button.
+            "No");                                                    //This is the text for the cancellation button.
 
-        if (result)
+        if (result) //If yes, proceed with logout. If no, do nothing.
         {
             await _authService.LogoutAsync();
             await _navigationService.NavigateToAsync("LoginPage");
         }
     }
 
-    /// @brief Navigates to the user profile page
-    /// @details Relay command that navigates to the profile management page
-    /// @return A task representing the asynchronous navigation operatio
-
-    /// @brief Navigates to the settings page
-    /// @details Relay command that navigates to the application settings page
-    /// @return A task representing the asynchronous navigation operation
+    //Navigates to the settings page.
     [RelayCommand]
     private async Task NavigateToSettingsAsync()
     {
         await _navigationService.NavigateToAsync("TempPage");
     }
 
-
-    /// @brief Navigates to the user list page
-    /// @details Relay command that navigates to the user management page, admin only
-    /// @return A task representing the asynchronous navigation operation
+    //Navigates to the user list page (Admin-only feature).
+    //If the user is not an admin, it shows an access denied message.
     [RelayCommand]
     private async Task NavigateToUserListAsync()
     {
@@ -119,23 +100,20 @@ public partial class MainViewModel : BaseViewModel
             await Application.Current.MainPage.DisplayAlert("Access Denied", "You don't have permission to access admin features.", "OK");
             return;
         }
-        
+
         await _navigationService.NavigateToAsync("UserListPage");
     }
 
-    /// @brief Refreshes the dashboard data
-    /// @details Relay command that reloads user data and simulates a refresh operation
-    /// @return A task representing the asynchronous refresh operation
+    //Refresh the dashboard data.
     [RelayCommand]
     private async Task RefreshDataAsync()
     {
         try
         {
-            IsBusy = true;
-            LoadUserData();
-            
-            // Simulate refresh delay
-            await Task.Delay(1000);
+            IsBusy = true; //Set IsBusy to true to show loading state.
+            LoadUserData(); //Reload user info.
+
+            await Task.Delay(1000); //Simulate a short delay (1 second).
         }
         catch (Exception ex)
         {
@@ -143,7 +121,7 @@ public partial class MainViewModel : BaseViewModel
         }
         finally
         {
-            IsBusy = false;
+            IsBusy = false; //Stop loading.
         }
     }
 }

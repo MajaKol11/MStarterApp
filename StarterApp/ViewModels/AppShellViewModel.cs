@@ -1,8 +1,3 @@
-/// @file AppShellViewModel.cs
-/// @brief Application shell view model for managing navigation and authentication state
-/// @author StarterApp Development Team
-/// @date 2025
-
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using StarterApp.Services;
@@ -11,32 +6,30 @@ using System.Diagnostics;
 
 namespace StarterApp.ViewModels
 {
-    /// @brief View model for the application shell that manages navigation and authentication
-    /// @details Handles menu items, navigation commands, and authentication state changes
-    /// @extends BaseViewModel
+    //ViewModel for the main app shell, managing navigation and menus and reacting to login/logout events.
     public partial class AppShellViewModel : BaseViewModel
     {
-        /// @brief Authentication service for managing user authentication
+        //Private field - meaning only this class can access it.
+        //Readonly - meaning value can only be assigned once and cannot be changed later.
+        //IAuthenticationService is an interface for managing user authentication, including login/logout and checking roles.
         private readonly IAuthenticationService _authService;
-        
-        /// @brief Navigation service for managing page navigation
+
+        //INavigationService is an interface for managing navigation within the application.
         private readonly INavigationService _navigationService;
 
-        /// @brief Collection of dynamic menu bar items
-        /// @details Observable collection that can be modified at runtime based on user permissions
+        //A collection of menu items that can be changed at runtime.
         public ObservableCollection<MenuBarItem> DynamicMenuBarItems { get; } = new();
 
-        /// @brief Default constructor for design-time support
-        /// @details Sets the title to "StarterApp"
+        //Constructor for AppShellViewModel.
+        //Sets the app title.
         public AppShellViewModel()
         {
             Title = "StarterApp";
         }
 
-        /// @brief Initializes a new instance of the AppShellViewModel class
-        /// @param authService The authentication service instance
-        /// @param navigationService The navigation service instance
-        /// @details Sets up authentication state change event handler and initializes the title
+        //Constructor for AppShellViewModel that takes dependencies.
+        //Sets up event handlers for authentication state changes.
+        //Initializes the title of the app shell.
         public AppShellViewModel(IAuthenticationService authService, INavigationService navigationService)
         {
             _authService = authService;
@@ -45,65 +38,59 @@ namespace StarterApp.ViewModels
             Title = "StarterApp";
         }
 
-        /// @brief Determines if guest actions can be executed
-        /// @return True if the current user has the "Guest" role
+        //Returns true if the user has the "Guest" role, false otherwise.
+        //This method is used to determine if guest actions can be executed.
         private bool CanExecuteGuestAction() => _authService.HasRole("Guest");
-        
-        /// @brief Determines if user actions can be executed
-        /// @return True if the current user has the "OrdinaryUser" role
+
+        //Returns true if the user has the "OrdinaryUser" role, false otherwise.
+        //This method is used to determine if user actions can be executed.
         private bool CanExecuteUserAction() => _authService.HasRole("OrdinaryUser");
         
-        /// @brief Determines if admin actions can be executed
-        /// @return True if the current user has the "Admin" role
+        //Returns true if the user has the "Admin" role, false otherwise.
+        //This method is used to determine if admin actions can be executed.
         private bool CanExecuteAdminAction()
         {
             return _authService.HasRole("Admin");
         }
         
-        /// @brief Determines if authenticated actions can be executed
-        /// @return True if the user is authenticated
+        //Returns true if the user is logged in, false otherwise.
         private bool CanExecuteAuthenticatedAction()
         {
             return _authService.IsAuthenticated;
         }
         
-        /// @brief Handles authentication state changes
-        /// @param sender The event sender
-        /// @param isAuthenticated Whether the user is authenticated
-        /// @details Updates command can-execute states and logs authentication information
+        //This method is called when the authentication state changes, meaning when a user logs in or out.
         private void OnAuthenticationStateChanged(object? sender, bool isAuthenticated)
         {
             LogoutCommand.NotifyCanExecuteChanged();
             NavigateToProfileCommand.NotifyCanExecuteChanged();
             NavigateToSettingsCommand.NotifyCanExecuteChanged();
-            Debug.WriteLine($"Authentication state changed: {isAuthenticated}");
+            Debug.WriteLine($"Authentication state changed: {isAuthenticated}"); //For developers, not shown to the user.
             Debug.WriteLine($"Current user is admin: {_authService.HasRole("Admin")}");
         }
 
-        /// @brief Navigates to the current user's profile page
-        /// @return A task representing the asynchronous navigation operation
+        //Opens the profile page 
+        //Async method waits for task to complete before continuing.
         [RelayCommand]
         private async Task NavigateToProfileAsync()
         {
             await _navigationService.NavigateToAsync("TempPage");
         }
 
-        /// @brief Navigates to the current user's settings page
-        /// @return A task representing the asynchronous navigation operation
+        //Opens the current user's settings page.
         [RelayCommand]
         private async Task NavigateToSettingsAsync()
         {
             await _navigationService.NavigateToAsync("TempPage");
         }
 
-        /// @brief Logs out the current user and navigates to login page
-        /// @details Relay command that can only be executed by authenticated users
-        /// @return A task representing the asynchronous logout operation
+        //Logs user out and navigates to the login page.
+        //Only works if user is logged in.
         [RelayCommand(CanExecute = nameof(CanExecuteAuthenticatedAction))]
         private async Task LogoutAsync()
         {
-            await _authService.LogoutAsync();
-            await _navigationService.NavigateToAsync("LoginPage");
+            await _authService.LogoutAsync(); //'Await' makes the program wait for the logout to complete before continuing.
+            await _navigationService.NavigateToAsync("LoginPage"); //If 'await' was removed, both tasks would start and navigation could happen before logout completes.
 
             LogoutCommand.NotifyCanExecuteChanged();
             NavigateToProfileCommand.NotifyCanExecuteChanged();

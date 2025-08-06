@@ -1,8 +1,3 @@
-/// @file LoginViewModel.cs
-/// @brief Login page view model for user authentication
-/// @author StarterApp Development Team
-/// @date 2025
-
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using StarterApp.Services;
@@ -10,50 +5,43 @@ using StarterApp.Views;
 
 namespace StarterApp.ViewModels;
 
-/// @brief View model for the login page that handles user authentication
-/// @details Manages login form data, validation, and authentication process
-/// @extends BaseViewModel
+//ViewModel for the login page.
+//Extends BaseViewModel and inherits from it to get common properties and methods.
 public partial class LoginViewModel : BaseViewModel
 {
-    /// @brief Authentication service for managing user login
+    //Used to log the user in and check credentials.
     private readonly IAuthenticationService _authService;
-    
-    /// @brief Navigation service for managing page navigation
+
+    //Navigation service to move between pages.
     private readonly INavigationService _navigationService;
 
-    /// @brief The user's email address
-    /// @details Observable property bound to the email input field
+    //Stores the user's email address.
+    //Linked to the email input field in the UI.
     [ObservableProperty]
     private string email = string.Empty;
 
-    /// @brief The user's password
-    /// @details Observable property bound to the password input field
+    //Stores the user's password.
+    //Linked to the password input field in the UI.
     [ObservableProperty]
     private string password = string.Empty;
 
-    /// @brief Whether to remember the user's login credentials
-    /// @details Observable property bound to the remember me checkbox
+    //Stores whether the 'Remember Me' checkbox is checked.
     [ObservableProperty]
     private bool rememberMe;
 
-    /// @brief Indicates whether a login operation is in progress
-    /// @details Observable property that notifies the LoginCommand when changed
+    //True if a login operation is running, false otherwise.
+    //Shows spinner and disables the login button while waiting.
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(LoginCommand))]
     private bool _isBusy;
 
-    /// @brief Default constructor for design-time support
-    /// @details Sets the title to "Login"
+    //Default constructor for design time support.
     public LoginViewModel()
     {
-        // Default constructor for design time support
-        Title = "Login";
+        Title = "Login"; //'Title' inherited from BaseViewModel.
     }
 
-    /// @brief Initializes a new instance of the LoginViewModel class
-    /// @param authService The authentication service instance
-    /// @param navigationService The navigation service instance
-    /// @details Sets up the required services and initializes the title
+    //Main constructor that runs when the app is started.
     public LoginViewModel(IAuthenticationService authService, INavigationService navigationService)
     {
         _authService = authService;
@@ -61,16 +49,16 @@ public partial class LoginViewModel : BaseViewModel
         Title = "Login";
     }
 
-    /// @brief Performs user login authentication
-    /// @details Relay command that validates input and attempts to authenticate the user
-    /// @return A task representing the asynchronous login operation
+    //Method is called when the user clicks the login button.
+    //It checks inputs, tries to log in, and shows success or error messages.
+    //Uses async/await to run without blocking the UI.
     [RelayCommand]
     private async Task LoginAsync()
     {
-        if (IsBusy)
+        if (IsBusy) //If already busy, do nothing to avoid multiple clicks.
             return;
 
-        if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
+        if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password)) //Check if email or password is empty, if yes show error.
         {
             SetError("Please enter both email and password");
             return;
@@ -78,43 +66,41 @@ public partial class LoginViewModel : BaseViewModel
 
         try
         {
-            IsBusy = true;
-            ClearError();
+            IsBusy = true; //Set IsBusy to true to show loading state.
+            ClearError(); //Clear any previous error messages.
 
-            var result = await _authService.LoginAsync(Email, Password);
+            var result = await _authService.LoginAsync(Email, Password); //Try to log in with the provided email and password.
 
             if (result.IsSuccess)
             {
-                Shell.Current.GoToAsync(nameof(UserListPage));
+                Shell.Current.GoToAsync(nameof(UserListPage)); //If credentials match, navigate to the user list page.
             }
             else
             {
-                SetError(result.Message);
+                SetError(result.Message); //If credentials do not match, show error message.
             }
         }
         catch (Exception ex)
         {
-            SetError($"Login failed: {ex.Message}");
+            SetError($"Login failed: {ex.Message}"); //If an exception occurs, show the error message.
         }
         finally
         {
-            IsBusy = false;
+            IsBusy = false; //Set IsBusy to false to hide loading state.
         }
     }
 
-    /// @brief Navigates to the registration page
-    /// @details Relay command that navigates to the user registration page
-    /// @return A task representing the asynchronous navigation operation
+    //Method runs when the user clicks the 'Register' button.
+    //It navigates to the registration page.
     [RelayCommand]
     private async Task NavigateToRegisterAsync()
     {
         await _navigationService.NavigateToAsync("RegisterPage");
     }
 
-    /// @brief Handles forgot password functionality
-    /// @details Relay command that displays a placeholder message for forgot password
-    /// @return A task representing the asynchronous operation
-    /// @todo Implement actual forgot password functionality
+    //Runs when the user clicks the 'Forgot Password' button.
+    //Should navigate to the forgot password page.
+    //Currently, it shows a message that this feature is not implemented.
     [RelayCommand]
     private async Task ForgotPasswordAsync()
     {

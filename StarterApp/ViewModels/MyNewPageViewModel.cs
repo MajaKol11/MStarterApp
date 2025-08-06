@@ -4,6 +4,6 @@ namespace StarterApp.ViewModels;
 
 public partial class MyNewPageViewModel : ObservableObject
 {
-    // Example bindable property
+    //Send a welcome message.
     [ObservableProperty] private string welcome = "Hello from MyNewPage!";
 }

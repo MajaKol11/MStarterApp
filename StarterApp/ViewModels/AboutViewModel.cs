@@ -1,47 +1,33 @@
-﻿/// @file AboutViewModel.cs
-/// @brief About page view model for displaying application information
-/// @author StarterApp Development Team
-/// @date 2025
-
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using System.Windows.Input;
 
 namespace StarterApp.ViewModels;
 
-/// @brief View model for the About page that displays application information
-/// @details Provides basic application information including name, version, and links to more information
+//This is the ViewModel for the About page, providing information about the app.
 public class AboutViewModel
 {
-    /// @brief Gets the application title from AppInfo
-    /// @return The application name as a string
+    //The name of the app, taken from the app settings.
     public string Title => AppInfo.Name;
-    
-    /// @brief Gets the application version from AppInfo
-    /// @return The application version string
+
+    //The version of the app, taken from the app settings.
     public string Version => AppInfo.VersionString;
-    
-    /// @brief Gets the URL for more information about the application
-    /// @return URL string pointing to MAUI documentation
+
+    //The URL that points to .NET MAUI documentation.
     public string MoreInfoUrl => "https://aka.ms/maui";
     
-    /// @brief Gets a descriptive message about the application technology stack
-    /// @return Description of the app's technology stack
     public string Message => "This app is written in XAML and C# with .NET MAUI.";
     
-    /// @brief Command to show more information about the application
-    /// @details Opens the MoreInfoUrl in the default browser
+    //Command that opens the web link in a browser when clicked.
     public ICommand ShowMoreInfoCommand { get; }
 
-    /// @brief Initializes a new instance of the AboutViewModel class
-    /// @details Sets up the ShowMoreInfoCommand with async relay command
+    //Initializes the ShowMoreInfoCommand with an asynchronous method.
+    //An asynchronous method runs without blocking the main thread, allowing the program to continue working on other tasks while waiting for it to finish.
     public AboutViewModel()
     {
         ShowMoreInfoCommand = new AsyncRelayCommand(ShowMoreInfo);
     }
 
-    /// @brief Opens the more information URL in the default browser
-    /// @details Asynchronously launches the default browser with the MoreInfoUrl
-    /// @return A task representing the asynchronous operation
+    //Opens the MoreInfoUrl in the default web browser.
     async Task ShowMoreInfo() =>
         await Launcher.Default.OpenAsync(MoreInfoUrl);
 }
