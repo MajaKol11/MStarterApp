@@ -24,8 +24,12 @@ public partial class MainViewModel : BaseViewModel
     [ObservableProperty]
     private string welcomeMessage = string.Empty;
 
+
+
+
     //True if the user has the Admin role.
     //Used to show or hide admin features in the UI.
+    [ObservableProperty]
     private bool isAdmin;
 
     //Empty constructor for design time support.

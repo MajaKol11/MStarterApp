@@ -38,7 +38,7 @@ public partial class LoginViewModel : BaseViewModel
     //Default constructor for design time support.
     public LoginViewModel()
     {
-        Title = "Login"; //'Title' inherited from BaseViewModel.
+        Title = "Login"; //'Title' inherited from BaseViewModel and set to "Login".
     }
 
     //Main constructor that runs when the app is started.
